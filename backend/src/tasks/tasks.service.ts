@@ -11,16 +11,17 @@ export class TasksService {
   constructor(
     @InjectRepository(Task)
     private tasksRepository: Repository<Task>,
-  ) {}
+  ) { }
 
   // ...existing methods below
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+  async create(createTaskDto: CreateTaskDto) {
+    const task = this.tasksRepository.create(createTaskDto); // builds a Task instance (not saved yet)
+    return this.tasksRepository.save(task); // actually writes it to the database
   }
 
   async findAll() {
-  return this.tasksRepository.find();
-}
+    return this.tasksRepository.find();
+  }
 
   findOne(id: number) {
     return `This action returns a #${id} task`;
