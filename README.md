@@ -28,10 +28,19 @@ The server runs on `http://localhost:3000` by default. A local `database.sqlite`
 ## API Endpoints
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | / | No | Default health-check route (NestJS scaffold default) |
+| GET | /tasks | No (yet) | Returns all tasks |
+| POST | /tasks | No (yet) | Creates a new task (validates title is required) |
+| POST | /auth/guest | No | Creates a guest user and returns a JWT token |
+| GET | /tasks | Yes | Returns all tasks |
+| GET | /tasks/:id | Yes | Returns a single task, 404 if not found |
+| POST | /tasks | Yes | Creates a new task (validates title) |
+| PATCH | /tasks/:id | Yes | Updates a task, 404 if not found |
+| DELETE | /tasks/:id | Yes | Deletes a task, 404 if not found |
+
+| GET | /tasks | Yes (own tasks only) | Returns all tasks belonging to the logged-in user |
 
 ## Deviations from Figma Design
-- 
+- Guest sessions are isolated per-login: each "Continue as Guest" click creates a brand-new guest account with its own task list, rather than persisting one guest identity across visits. This was a simplification appropriate for an assessment project.
 
 ## Part 2 — AbleSpace Walkthrough
 (link to doc/video — coming soon)
