@@ -34,4 +34,7 @@ export class Task {
     @UpdateDateColumn()
     updatedAt!: Date;
 
+    @Column()
+    userId!: string;
+
 }
