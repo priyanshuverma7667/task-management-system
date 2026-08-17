@@ -1,22 +1,37 @@
 @import "tailwindcss";
 
+/* Light mode (default) */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card: #f4f4f5;
+  --border: #e5e5e5;
 }
+
+/* Dark mode — activated by adding data-theme="dark" on <html> */
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card: #18181b;
+  --border: #27272a;
+}
+
+/* Accent colors — each activated by data-accent="..." on <html> */
+[data-accent="amber"]   { --accent: #f59e0b; }
+[data-accent="blue"]    { --accent: #3b82f6; }
+[data-accent="pink"]    { --accent: #ec4899; }
+[data-accent="rose"]    { --accent: #f43f5e; }
+[data-accent="emerald"] { --accent: #10b981; }
+[data-accent="black"]   { --accent: #18181b; }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

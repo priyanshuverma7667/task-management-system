@@ -7,7 +7,8 @@ A full stack task management app (board + list views, guest login, theming) buil
 - Backend: NestJS (TypeScript) — chosen for its structured, modular architecture (controllers/services/modules) which scales well and is easy to explain/maintain
 - Database: SQLite — chosen for zero-config local development; no external DB server needed, works out of the box for this assessment
 - ORM: TypeORM (with better-sqlite3 driver) — chosen over Prisma since Prisma's engine binary download had connectivity issues in dev environment; better-sqlite3 is synchronous and fast
-- Frontend: (coming soon)
+- Frontend: Next.js (App Router) with Tailwind CSS v4 — chosen per assignment tech stack preference
+- Theming: implemented via CSS custom properties (variables) switched using `data-theme` and `data-accent` attributes on the `<html>` element, controlled by an inline script in the root layout to prevent flash-of-wrong-theme on load. Preferences persist via `localStorage`.
 
 ## Live Demo
 - App: (coming soon)
