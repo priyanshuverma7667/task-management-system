@@ -10,6 +10,10 @@ A full stack task management app (board + list views, guest login, theming) buil
 - Frontend: Next.js (App Router) with Tailwind CSS v4 — chosen per assignment tech stack preference
 - Theming: implemented via CSS custom properties (variables) switched using `data-theme` and `data-accent` attributes on the `<html>` element, controlled by an inline script in the root layout to prevent flash-of-wrong-theme on load. Preferences persist via `localStorage`.
 
+
+- Backend runs on port 3001, frontend on port 3000 (standard Next.js default) — configured via `.env` files on each side
+- CORS explicitly configured on the backend to allow requests from the frontend's origin
+
 ## Live Demo
 - App: (coming soon)
 - API: (coming soon)
@@ -22,9 +26,6 @@ npm install
 npm run start:dev
 ```
 The server runs on `http://localhost:3000` by default. A local `database.sqlite` file is created automatically on first run.
-
-### Frontend
-(coming soon)
 
 ## API Endpoints
 | Method | Path | Auth | Description |
@@ -42,6 +43,13 @@ The server runs on `http://localhost:3000` by default. A local `database.sqlite`
 
 ## Deviations from Figma Design
 - Guest sessions are isolated per-login: each "Continue as Guest" click creates a brand-new guest account with its own task list, rather than persisting one guest identity across visits. This was a simplification appropriate for an assessment project.
+
+
+## Component Library
+- `Button` — primary (filled) and secondary (outlined) variants
+- `Input` — labeled text input with theme-aware focus ring
+- `Card` — bordered container surface
+All components use CSS variables for theming, requiring no dark-mode-specific logic.
 
 ## Part 2 — AbleSpace Walkthrough
 (link to doc/video — coming soon)
