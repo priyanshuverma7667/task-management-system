@@ -19,6 +19,17 @@ A full stack task management app (board + list views, guest login, theming) buil
 - API: (coming soon)
 
 ## Setup (Local)
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Create a `.env.local` file with:
+```
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
 ### Backend
 ```bash
 cd backend
