@@ -53,7 +53,8 @@ The server runs on `http://localhost:3000` by default. A local `database.sqlite`
 | GET | /tasks | Yes (own tasks only) | Returns all tasks belonging to the logged-in user |
 
 ## Deviations from Figma Design
-- Guest sessions are isolated per-login: each "Continue as Guest" click creates a brand-new guest account with its own task list, rather than persisting one guest identity across visits. This was a simplification appropriate for an assessment project.
+- Guest sessions are isolated per-login: each "Continue as Guest" click creates a brand-new guest account with its own task list, rather than persisting one guest identity across visits.
+- Figma frames are desktop-only (1280px); mobile/tablet layouts were adapted by me: sidebar collapses into a slide-in drawer below 768px (triggered by a hamburger menu), and the top bar's search/Fields/Add Task controls compress to icon-only versions on narrow screens rather than disappearing, keeping all functionality accessible at every size.
 
 
 ## Component Library

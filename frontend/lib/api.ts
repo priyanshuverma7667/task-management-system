@@ -13,3 +13,15 @@ export async function guestLogin(name?: string) {
 
   return res.json();
 }
+
+export async function getTasks(token: string) {
+  const res = await fetch(`${API_URL}/tasks`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch tasks");
+  }
+
+  return res.json();
+}
