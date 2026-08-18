@@ -25,9 +25,12 @@ export class Task {
     @Column({ default: 'no_priority' })
     priority!: string;
 
-    @Column({ nullable: true, type: 'datetime' })
+      @Column({ nullable: true, type: 'datetime' })
     dueDate!: Date;
-    
+
+    @Column({ type: 'simple-array', nullable: true })
+    labels!: string[];
+
     @CreateDateColumn()
     createdAt!: Date;
 
@@ -36,5 +39,7 @@ export class Task {
 
     @Column()
     userId!: string;
+
+    
 
 }
