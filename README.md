@@ -65,3 +65,13 @@ All components use CSS variables for theming, requiring no dark-mode-specific lo
 
 ## Part 2 — AbleSpace Walkthrough
 (link to doc/video — coming soon)
+
+
+## Live Demo
+- App: https://task-management-system-je6itha18-smart-task-management.vercel.app
+- API: https://task-management-system-wusa.onrender.com
+
+## Deployment Notes
+- Backend deployed on Render (free tier) — note: free tier spins down after inactivity, first request after idle may take ~50 seconds to respond
+- Frontend deployed on Vercel
+- CORS configured to allow both localhost (dev) and the deployed frontend origin
