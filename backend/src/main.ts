@@ -6,9 +6,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-  });
+  origin: [
+    'http://localhost:3000',
+    'https://task-management-system-je6itha18-smart-task-management.vercel.app',
+  ],
+  credentials: true,
+});
 
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(process.env.PORT ?? 3000);
