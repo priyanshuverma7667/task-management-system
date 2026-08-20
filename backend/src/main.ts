@@ -8,7 +8,7 @@ async function bootstrap() {
   app.enableCors({
   origin: [
     'http://localhost:3000',
-    'https://task-management-system-je6itha18-smart-task-management.vercel.app',
+    'https://task-management-system-two-hazel.vercel.app',
   ],
   credentials: true,
 });
