@@ -24,10 +24,10 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
           <span className="hidden sm:inline">Fields</span>
           <span className="sm:hidden">⚙</span>
         </button>
-        <button className="px-2 sm:px-3 py-1.5 rounded-md bg-foreground text-background text-sm font-medium hover:opacity-90 whitespace-nowrap">
+        {/* <button className="px-2 sm:px-3 py-1.5 rounded-md bg-foreground text-background text-sm font-medium hover:opacity-90 whitespace-nowrap">
           <span className="hidden sm:inline">+ Add Task</span>
           <span className="sm:hidden">+</span>
-        </button>
+        </button> */}
       </div>
     </header>
   );
