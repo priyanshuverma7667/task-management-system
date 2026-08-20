@@ -1,77 +1,109 @@
 ﻿# Task Management System
 
-## Overview
-A full stack task management app (board + list views, guest login, theming) built for the Full Stack Developer assessment.
-
-## Tech Stack
-- Backend: NestJS (TypeScript) — chosen for its structured, modular architecture (controllers/services/modules) which scales well and is easy to explain/maintain
-- Database: SQLite — chosen for zero-config local development; no external DB server needed, works out of the box for this assessment
-- ORM: TypeORM (with better-sqlite3 driver) — chosen over Prisma since Prisma's engine binary download had connectivity issues in dev environment; better-sqlite3 is synchronous and fast
-- Frontend: Next.js (App Router) with Tailwind CSS v4 — chosen per assignment tech stack preference
-- Theming: implemented via CSS custom properties (variables) switched using `data-theme` and `data-accent` attributes on the `<html>` element, controlled by an inline script in the root layout to prevent flash-of-wrong-theme on load. Preferences persist via `localStorage`.
-
-
-- Backend runs on port 3001, frontend on port 3000 (standard Next.js default) — configured via `.env` files on each side
-- CORS explicitly configured on the backend to allow requests from the frontend's origin
+A full stack task management application built for the Full Stack Developer Assessment — featuring guest login, a Kanban board, list view, task and project management, and a full light/dark + accent-color theming system.
 
 ## Live Demo
-- App: (coming soon)
-- API: (coming soon)
+- **App:** https://task-management-system-two-hazel.vercel.app
+- **API:** https://task-management-system-wusa.onrender.com
 
-## Setup (Local)
+> Note: The backend is hosted on Render's free tier, which spins down after inactivity. The first request after idle time may take up to 50 seconds to respond — this is expected, not a bug.
+
+## Tech Stack
+- **Frontend:** Next.js (App Router) + TypeScript + Tailwind CSS v4
+- **Backend:** NestJS + TypeScript
+- **Database:** SQLite (via TypeORM, `better-sqlite3` driver) — chosen for zero-config local development with no external database server required
+- **Auth:** Guest login via JWT (JSON Web Tokens), using Passport's JWT strategy
+- **Deployment:** Frontend on Vercel, Backend on Render
+
+## Features
+- Guest login (no password required) — each session is isolated per user
+- Task board (Kanban view) and list view with a toggle between them
+- Task creation with labels/tags
+- Task detail page — view, edit, and delete tasks
+- Projects — create, view, and delete projects
+- Full light/dark mode with 6 selectable accent colors (Amber, Blue, Pink, Rose, Emerald, Black), persisted across sessions
+- Fully responsive layout — collapsible mobile sidebar drawer, adaptive top bar, responsive board grid
+
+## Setup (Local Development)
+
+### Backend
+```bash
+cd backend
+npm install
+```
+Create a `.env` file in `backend/`:
+```
+PORT=3001
+JWT_SECRET=your-random-secret-string-here
+```
+Then run:
+```bash
+npm run start:dev
+```
+The backend runs on `http://localhost:3001`. A local `database.sqlite` file is created automatically on first run.
 
 ### Frontend
 ```bash
 cd frontend
 npm install
-npm run dev
 ```
-Create a `.env.local` file with:
+Create a `.env.local` file in `frontend/`:
 ```
 NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
-### Backend
+Then run:
 ```bash
-cd backend
-npm install
-npm run start:dev
+npm run dev
 ```
-The server runs on `http://localhost:3000` by default. A local `database.sqlite` file is created automatically on first run.
+The frontend runs on `http://localhost:3000`.
 
 ## API Endpoints
+
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | /tasks | No (yet) | Returns all tasks |
-| POST | /tasks | No (yet) | Creates a new task (validates title is required) |
 | POST | /auth/guest | No | Creates a guest user and returns a JWT token |
-| GET | /tasks | Yes | Returns all tasks |
-| GET | /tasks/:id | Yes | Returns a single task, 404 if not found |
-| POST | /tasks | Yes | Creates a new task (validates title) |
-| PATCH | /tasks/:id | Yes | Updates a task, 404 if not found |
-| DELETE | /tasks/:id | Yes | Deletes a task, 404 if not found |
+| GET | /tasks | Yes | Returns all tasks belonging to the logged-in user |
+| GET | /tasks/:id | Yes | Returns a single task (404 if not found, 403 if not owned by requester) |
+| POST | /tasks | Yes | Creates a new task (validates required title) |
+| PATCH | /tasks/:id | Yes | Updates a task |
+| DELETE | /tasks/:id | Yes | Deletes a task |
+| GET | /projects | Yes | Returns all projects belonging to the logged-in user |
+| GET | /projects/:id | Yes | Returns a single project |
+| POST | /projects | Yes | Creates a new project |
+| PATCH | /projects/:id | Yes | Updates a project |
+| DELETE | /projects/:id | Yes | Deletes a project |
 
-| GET | /tasks | Yes (own tasks only) | Returns all tasks belonging to the logged-in user |
+All `/tasks` and `/projects` routes require a valid JWT in the `Authorization: Bearer <token>` header, obtained from `/auth/guest`. Every user only has access to their own data — verified with isolated multi-guest testing during development.
 
 ## Deviations from Figma Design
-- Guest sessions are isolated per-login: each "Continue as Guest" click creates a brand-new guest account with its own task list, rather than persisting one guest identity across visits.
-- Figma frames are desktop-only (1280px); mobile/tablet layouts were adapted by me: sidebar collapses into a slide-in drawer below 768px (triggered by a hamburger menu), and the top bar's search/Fields/Add Task controls compress to icon-only versions on narrow screens rather than disappearing, keeping all functionality accessible at every size.
 
+- **Guest sessions are isolated per login:** each "Continue as Guest" click creates a brand-new guest account with its own empty task list, rather than persisting one guest identity across visits/browsers. This was a scoping decision appropriate for a guest-only auth flow within this assessment's timeframe.
+- **Board status columns simplified:** the board uses 4 core status columns (To Do, Doing, Completed, On Hold) rather than the 7 shown in Figma (which also included Backend, User Feedback, Performance) — those additional columns appeared to be project/team-specific categorization rather than universal task states, so were scoped out.
+- **Board layout uses a responsive CSS grid** (1 column on mobile, 2 on tablet, 4 on desktop) instead of horizontal scrolling, since only 4 status columns are used — this keeps all columns visible and reachable without a scroll gesture on any device size. The Figma frames were desktop-only (1280px); this and other mobile/tablet adaptations (collapsible sidebar drawer, compact top bar controls) were designed by me to extend the design responsively.
+- **"Login with Google" is present in the UI but not functional** — the assignment required guest login specifically; the Google button is a visual placeholder matching the Figma design.
+- **Settings/Profile page was scoped out** due to time constraints, to prioritize core task/project functionality and deployment.
+- **Fields dropdown (column visibility toggle) is not yet functional** — present visually in the top bar, not wired to actual column filtering, due to time constraints.
+- **Task labels/tags** were added as a custom field (not explicitly itemized in the initial task breakdown) to better match the richer task cards shown in the Figma reference (assignee, due date, and tag chips).
 
-## Component Library
-- `Button` — primary (filled) and secondary (outlined) variants
-- `Input` — labeled text input with theme-aware focus ring
-- `Card` — bordered container surface
-All components use CSS variables for theming, requiring no dark-mode-specific logic.
+## Project Structure
+```
+task-management-system/
+├── backend/          # NestJS API
+│   └── src/
+│       ├── auth/     # Guest login, JWT strategy & guard
+│       ├── tasks/    # Task entity, DTOs, service, controller
+│       ├── projects/ # Project entity, DTOs, service, controller
+│       └── users/    # User entity
+├── frontend/         # Next.js app
+│   ├── app/
+│   │   ├── login/           # Guest login page
+│   │   └── (app)/           # Shared authenticated layout (sidebar + top bar)
+│   │       ├── board/       # Board/list view + task detail
+│   │       └── projects/    # Projects list
+│   ├── components/  # Reusable UI components (Button, Input, Card, Modal, Sidebar, TopBar)
+│   └── lib/          # API client functions
+└── README.md
+```
 
-## Part 2 — AbleSpace Walkthrough
-(link to doc/video — coming soon)
-
-
-## Live Demo
-- App: https://task-management-system-je6itha18-smart-task-management.vercel.app
-- API: https://task-management-system-wusa.onrender.com
-
-## Deployment Notes
-- Backend deployed on Render (free tier) — note: free tier spins down after inactivity, first request after idle may take ~50 seconds to respond
-- Frontend deployed on Vercel
-- CORS configured to allow both localhost (dev) and the deployed frontend origin
+## Part 2 — AbleSpace Product Walkthrough
+[Link/file to be added]
