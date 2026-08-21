@@ -106,4 +106,5 @@ task-management-system/
 ```
 
 ## Part 2 — AbleSpace Product Walkthrough
-[Link/file to be added]
+
+https://docs.google.com/document/d/1u9upLiDR-awLpmcBeFMvPCdtqO8RMN1QJKi_PNgI8dw/edit?usp=sharing
