@@ -1,3 +1,5 @@
+import ThemeMenu from "./ThemeMenu";
+
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
@@ -33,7 +35,8 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           <a href="/settings" className="px-3 py-2 rounded-md hover:bg-[var(--border)] text-sm font-medium">
             Settings
           </a>
-        </nav>
+                </nav>
+        <ThemeMenu />
       </aside>
     </>
   );
