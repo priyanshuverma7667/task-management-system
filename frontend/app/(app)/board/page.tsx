@@ -14,6 +14,7 @@ interface Task {
   status: string;
   priority: string;
   labels?: string[];
+  dueDate?: string;
 }
 
 const COLUMNS = [
@@ -33,6 +34,9 @@ export default function BoardPage() {
   const [newLabels, setNewLabels] = useState("");
   const [creating, setCreating] = useState(false);
   const [view, setView] = useState<"board" | "list">("board");
+  const [fieldsOpen, setFieldsOpen] = useState(false);
+  const [showPriority, setShowPriority] = useState(true);
+  const [showDueDate, setShowDueDate] = useState(false);
 
   function loadTasks(token: string) {
     getTasks(token)
@@ -90,6 +94,33 @@ export default function BoardPage() {
               Board
             </button>
           </div>
+
+          <div className="relative">
+            <Button variant="secondary" onClick={() => setFieldsOpen(!fieldsOpen)}>
+              Fields
+            </Button>
+            {fieldsOpen && (
+              <div className="absolute right-0 mt-1 w-44 bg-[var(--card)] border border-[var(--border)] rounded-md shadow-lg p-3 flex flex-col gap-2 z-50">
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={showPriority}
+                    onChange={(e) => setShowPriority(e.target.checked)}
+                  />
+                  Priority
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={showDueDate}
+                    onChange={(e) => setShowDueDate(e.target.checked)}
+                  />
+                  Due Date
+                </label>
+              </div>
+            )}
+          </div>
+
           <Button variant="primary" onClick={() => setModalOpen(true)}>
             + Add Task
           </Button>
@@ -149,19 +180,36 @@ export default function BoardPage() {
                     <thead className="bg-[var(--card)] text-left text-foreground/60">
                       <tr>
                         <th className="px-4 py-2 font-medium">Task</th>
-                        <th className="px-4 py-2 font-medium">Priority</th>
+                        {showPriority && <th className="px-4 py-2 font-medium">Priority</th>}
+                        {showDueDate && <th className="px-4 py-2 font-medium">Due Date</th>}
                       </tr>
                     </thead>
                     <tbody>
                       {columnTasks.map((task) => (
-                        <tr key={task.id} className="border-t border-[var(--border)]">
+                        <tr
+                          key={task.id}
+                          className="border-t border-[var(--border)] cursor-pointer hover:bg-[var(--card)]"
+                          onClick={() => router.push(`/board/${task.id}`)}
+                        >
                           <td className="px-4 py-2">{task.title}</td>
-                          <td className="px-4 py-2 capitalize">{task.priority.replace("_", " ")}</td>
+                          {showPriority && (
+                            <td className="px-4 py-2 capitalize">{task.priority.replace("_", " ")}</td>
+                          )}
+                          {showDueDate && (
+                            <td className="px-4 py-2">
+                              {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "—"}
+                            </td>
+                          )}
                         </tr>
                       ))}
                       {columnTasks.length === 0 && (
                         <tr>
-                          <td colSpan={2} className="px-4 py-2 text-foreground/40">No tasks</td>
+                          <td
+                            colSpan={1 + (showPriority ? 1 : 0) + (showDueDate ? 1 : 0)}
+                            className="px-4 py-2 text-foreground/40"
+                          >
+                            No tasks
+                          </td>
                         </tr>
                       )}
                     </tbody>
