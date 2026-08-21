@@ -27,8 +27,11 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           <a href="/board" className="px-3 py-2 rounded-md hover:bg-[var(--border)] text-sm font-medium">
             Tasks
           </a>
-          <a href="/projects" className="px-3 py-2 rounded-md hover:bg-[var(--border)] text-sm font-medium">
+                   <a href="/projects" className="px-3 py-2 rounded-md hover:bg-[var(--border)] text-sm font-medium">
             Projects
+          </a>
+          <a href="/settings" className="px-3 py-2 rounded-md hover:bg-[var(--border)] text-sm font-medium">
+            Settings
           </a>
         </nav>
       </aside>
